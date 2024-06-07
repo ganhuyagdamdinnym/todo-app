@@ -5,7 +5,7 @@ const DeleteSchema = new mongoose.Schema({
   status: Boolean,
   team: String,
   Action: String,
-  date: Number,
+  date: String,
 });
 export const DeletedModel =
   mongoose.models.deleted || mongoose.model("deleted", DeleteSchema);

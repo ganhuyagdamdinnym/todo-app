@@ -11,10 +11,12 @@ export const POST = async (req: Request) => {
     const deletedTodo = await TodoModel.findOneAndDelete({ _id: title });
     console.log("this is console", deletedTodo);
     // console.log("ss", deletedTodo.title);
+    console.log(deletedTodo.date);
     await DeletedModel.create({
       title: deletedTodo.title,
       team: deletedTodo.team,
       status: true,
+      date: deletedTodo.date,
     });
 
     return Response.json(
