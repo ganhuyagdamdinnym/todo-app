@@ -6,6 +6,8 @@ import { TodoType } from "@/lib/todoTypes";
 import axios from "axios";
 import { title } from "process";
 import { Back_End_url } from "../utils/Back_url";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const AddTodo = () => {
   const { todos, setTodos, Fetch } = useTodo();
@@ -14,8 +16,9 @@ export const AddTodo = () => {
   const [selectTeam, setSelectTeam] = useState<string>("Team-1");
   const [titleVal, setTitleval] = useState<string>("");
   const TeamArray = ["Team-1", "Team-2", "Team-3"];
-
+  const notify = () => toast("Wow so easy!");
   const HandleAdd = async () => {
+    toast("Creating todo!");
     const date = Date.now();
     console.log(date);
     todos.filter(async (todo) => {
@@ -67,6 +70,7 @@ export const AddTodo = () => {
           <option value={e}>{e}</option>
         ))}
       </select>
+      <ToastContainer />
     </div>
   );
 };

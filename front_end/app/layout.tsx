@@ -4,7 +4,8 @@ import "./globals.css";
 import TodoProvider from "./_contexts/TodoContext";
 import AdviceProvider from "./_contexts/AdviceContext";
 import { ThemeProvider } from "./_components/DarkMode";
-
+import TokenProvider from "./_contexts/TokenContext";
+import { Children } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -27,7 +28,8 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <TodoProvider>
-            <AdviceProvider>{children}</AdviceProvider>
+            {children}
+            {/* <TokenProvider>{children}</TokenProvider> */}
           </TodoProvider>
         </ThemeProvider>
       </body>

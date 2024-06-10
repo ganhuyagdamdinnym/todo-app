@@ -19,6 +19,12 @@ import { Back_End_url } from "../utils/Back_url";
 import { CheckboxDemo } from "./CheckButton";
 import { AlertDialogDemo } from "./_Alert";
 import { useStatus } from "../_contexts/StatusContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { Input } from "@/components/ui/input";
+import { Refresh } from "./Refresh";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export function TableDemo() {
   //const { advice, setAdvice, adviceStatus, setAdviceStatus } = useAdvice();
@@ -26,6 +32,10 @@ export function TableDemo() {
   const { todos, setTodos, Fetch } = useTodo();
   const { inprogressStatus, setInprogressStatus } = useStatus();
   const [deletingTitle, setDeletingTitle] = useState<string>("");
+  const [isClickEdithButon, setisClickEdithButton] = useState<boolean>(false);
+  const [selectTeam, setSelectTeam] = useState<string>("Team-1");
+  const [titleVal, setTitleval] = useState<string>("");
+  const TeamArray = ["Team-1", "Team-2", "Team-3"];
 
   useState<boolean>(false);
   const [deletingTodo, setDeletingTodo] = useState<string>("");
@@ -87,6 +97,28 @@ export function TableDemo() {
       console.log(err);
     }
   };
+  const HandleEdith = async (id: string, title: string, selectTeam: string) => {
+    if (isClickEdithButon == false) {
+      setisClickEdithButton(!isClickEdithButon);
+      console.log(id);
+      setTitleval(title);
+    } else {
+      try {
+        const res = await fetch(`${Back_End_url}/edith`, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ title: titleVal, id: id, team: selectTeam }),
+        }).then(function (res) {
+          Fetch();
+        });
+      } catch (err) {
+        console.log(err);
+      }
+      console.log(isClickEdithButon);
+      setisClickEdithButton(false);
+    }
+  };
 
   return (
     <Card className="mt-4">
@@ -94,6 +126,7 @@ export function TableDemo() {
         <Table className="z-0">
           <TableHeader>
             <TableRow>
+              <TableHead>№</TableHead>
               <TableHead className="w-[200px]">Title</TableHead>
               <TableHead className="w-[150px]">Status</TableHead>
               <TableHead>Team</TableHead>
@@ -106,14 +139,54 @@ export function TableDemo() {
           <TableBody>
             {todos.map((todo, index) => (
               <TableRow key={index}>
-                <TableCell className="font-medium">{todo.title}</TableCell>
+                <TableCell className="flex gap-4 items-center justify-center">
+                  <p className="">{index + 1}</p>
+                  {inprogressStatus ? (
+                    <FontAwesomeIcon
+                      icon={faPenToSquare}
+                      style={{
+                        fontSize: "20px",
+                      }}
+                      onClick={() =>
+                        HandleEdith(todo._id, todo.title, selectTeam)
+                      }
+                    />
+                  ) : (
+                    <Refresh id={todo._id} />
+                  )}
+                </TableCell>
+                <TableCell className="font-medium">
+                  {isClickEdithButon ? (
+                    <Input
+                      className="h-[30px]"
+                      onChange={(e) => setTitleval(e.target.value)}
+                      value={titleVal}
+                    />
+                  ) : (
+                    <p>{todo.title}</p>
+                  )}
+                </TableCell>
                 <TableCell className="flex">
                   <CheckboxDemo />
                   <button onClick={() => HandleStatus(todo._id)}>
                     {todo.status ? "Done" : "Pending"}
                   </button>
                 </TableCell>
-                <TableCell>{todo.team}</TableCell>
+                <TableCell>
+                  {isClickEdithButon ? (
+                    <select
+                      onChange={(e) => setSelectTeam(e.target.value)}
+                      value={selectTeam}
+                      className="border-[1px] px-2 py-1 rounded-xl w-[100px]"
+                    >
+                      {TeamArray.map((e) => (
+                        <option value={e}>{e}</option>
+                      ))}
+                    </select>
+                  ) : (
+                    <p> {todo.team}</p>
+                  )}
+                </TableCell>
                 <TableCell>
                   <div className="w-full flex justify-center">{todo?.date}</div>
                   {/* var d = new Date(Date.now());

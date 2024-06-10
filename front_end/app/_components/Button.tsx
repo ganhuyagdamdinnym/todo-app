@@ -20,7 +20,7 @@ export function ButtonDemo() {
   };
   return (
     <Button onClick={() => HandleDeletedTodo()} variant="secondary">
-      Deleted Todo
+      Trash
     </Button>
   );
 }

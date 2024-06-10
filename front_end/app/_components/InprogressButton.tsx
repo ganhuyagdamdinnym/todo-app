@@ -17,6 +17,7 @@ export function Inprogress() {
     } catch (error) {
       console.log(error);
     }
+    setInprogressStatus(true);
   };
   return <Button onClick={() => handleData()}>In progress</Button>;
 }
