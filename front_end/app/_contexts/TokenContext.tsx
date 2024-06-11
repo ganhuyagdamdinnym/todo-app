@@ -17,8 +17,11 @@ const tokenContext = (props: Props) => {
   const router = useRouter();
   const checkToken = () => {
     // window /main tai tentskue
-    if (token == "") {
+    const LocalToken = localStorage.getItem("token");
+    if (!LocalToken) {
       router.push("/login");
+    } else {
+      alert("ji");
     }
   };
   const { children } = props;

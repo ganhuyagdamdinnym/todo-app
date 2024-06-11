@@ -5,7 +5,7 @@ import { UserModel } from "@/models/user-model";
 export const POST = async (req: Request, res: any) => {
   const { email, pass } = await req.json();
   await connect();
-  console.log("post", email);
+  console.log("postll", email);
   try {
     const userData = await UserModel.findOne({ email: email });
     if (!userData) {
