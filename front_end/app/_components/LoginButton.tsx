@@ -23,8 +23,10 @@ export function ButtonLogin(props: PropsType) {
         pass: pass,
       });
       console.log(res);
-      localStorage.setItem("token", res.data.token);
-      router.push("/");
+      if (res.data.token) {
+        localStorage.setItem("token", res.data.token);
+        router.push("/");
+      }
       // localStorage.removeItem("basket");
       // setToken(res.data.token);
     } catch (err) {}

@@ -123,7 +123,7 @@ export function TableDemo() {
   return (
     <Card className="mt-4">
       <CardContent className="overflow-hidden w-full items-center">
-        <Table className="z-0">
+        <Table className="z-0 w-full">
           <TableHeader>
             <TableRow>
               <TableHead>№</TableHead>
@@ -207,7 +207,7 @@ export function TableDemo() {
             ))}
           </TableBody>
           <TableFooter>
-            <TableRow className="w-[1000px]">
+            <TableRow className="w-full">
               <TableCell colSpan={3}>Total</TableCell>
               <TableCell className="text-right">{todos.length}</TableCell>
             </TableRow>

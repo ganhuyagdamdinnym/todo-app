@@ -6,3 +6,18 @@ export type TodoType = {
   Action: string;
   date: string;
 };
+
+type userTodosType = {
+  title: String;
+  status: Boolean;
+  team: String;
+  Action: String;
+  date: String;
+};
+export type UserType = {
+  _id: string;
+  password: string;
+  name: string;
+  email: string;
+  todos: userTodosType;
+};

@@ -12,6 +12,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 import TokenProvider from "./_contexts/TokenContext";
+import { PublicButton } from "./_components/PublicButton";
+import { ProvideButton } from "./_components/PrivadeButton";
 //mport { HandleToggle } from "./_components/DarkMode";
 export default function Home() {
   const [isLogin, setLogin] = useState<boolean>(false);
@@ -22,8 +24,10 @@ export default function Home() {
         <StatusProvider>
           <div className="w-full flex justify-between">
             <AddTodo />
-            <div style={{ position: "fixed" }} className="flex">
+            <div style={{ position: "fixed" }} className="flex gap-2">
               <SelectDemo />
+              <PublicButton />
+              <ProvideButton />
               {/* <Search /> */}
             </div>
             <div
@@ -32,7 +36,6 @@ export default function Home() {
             >
               <Inprogress />
               <ButtonDemo />
-              <button onClick={notify}>Notify!</button>
               <ToastContainer />
               <ModeToggle />
             </div>

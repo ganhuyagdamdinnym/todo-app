@@ -16,24 +16,24 @@ export default function Login() {
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">
-      <div className="h-[400px] w-[300px] flex flex-col justify-center items-center gap-4 border-2 border-black rounded-2xl px-4">
+      <div className="h-[600px] w-[500px] flex flex-col justify-center items-center gap-[40px] border-4 border-black rounded-2xl px-[50px] ">
         <div className="text-[15px]">
           <button
-            className="text-[20px]"
+            className="text-[20px] font-semibold border-b-[1px] border-black"
             onClick={() => setisClickSignUp(false)}
           >
             Login
           </button>{" "}
           or{" "}
           <button
-            className="text-[20px]"
+            className="text-[20px] font-semibold border-b-[1px] border-black"
             onClick={() => setisClickSignUp(true)}
           >
             SignUp
           </button>
         </div>
         {isClickSignUp ? (
-          <div className="w-full flex flex-col py-2 gap-2">
+          <div className="w-full flex flex-col py-2 gap-[30px]">
             <Input
               placeholder="Email"
               type="email"
@@ -53,7 +53,7 @@ export default function Login() {
             <ButtonSignUp email={emailVal} name={nameVal} pass={PassVal} />
           </div>
         ) : (
-          <div className="w-full flex flex-col py-2 gap-2">
+          <div className="w-full flex flex-col py-2 gap-[30px]">
             <Input
               placeholder="Email"
               type="email"

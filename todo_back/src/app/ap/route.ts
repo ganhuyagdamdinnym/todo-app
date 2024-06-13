@@ -1,9 +1,12 @@
-import { Staatliches } from "next/font/google";
 import { connect } from "../../utils/mongoDb";
 import { TodoModel } from "@/models/todo-model";
+import { verifyToken } from "../../middleware/auto";
+import { Head } from "next/document";
 
 export const GET = async (req: Request) => {
   await connect();
+  verifyToken();
+
   try {
     const allData = await TodoModel.find();
     // console.log(allData);
@@ -28,8 +31,8 @@ export const GET = async (req: Request) => {
 
 export const POST = async (req: Request) => {
   console.log("post request");
+  verifyToken();
   const { title, team, dateCreate } = await req.json();
-
   const date = new Date(dateCreate).toString();
   const shortDate = date.split("GMT");
   const newDate = shortDate[0];
