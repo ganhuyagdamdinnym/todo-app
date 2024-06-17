@@ -1,5 +1,6 @@
 import { TodoModel } from "@/models/todo-model";
 import { DeleteId } from "@/graphql/generated/client";
+import { DeletedModel } from "@/models/todo-delete";
 export const deleteTodo = async (
   _: any,
   { input }: { input: DeleteId },
@@ -7,12 +8,18 @@ export const deleteTodo = async (
 ) => {
   const { id } = input;
   try {
-    const deleteTodo = await TodoModel.findByIdAndDelete(id);
+    const deletedTodo = await TodoModel.findByIdAndDelete(id);
     console.log("deklete", deleteTodo);
+    await DeletedModel.create({
+      title: deletedTodo.title,
+      team: deletedTodo.team,
+      status: true,
+      date: deletedTodo.date,
+    });
     if (deleteTodo == null) {
       return "heregle";
     }
-    return deleteTodo;
+    return deletedTodo;
   } catch (err) {
     console.log(err);
     throw err;

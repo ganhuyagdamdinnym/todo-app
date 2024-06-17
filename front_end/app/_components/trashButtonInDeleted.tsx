@@ -1,4 +1,3 @@
-"use client";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,50 +13,44 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useStatus } from "../_contexts/StatusContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { useDeletedTodo } from "../_contexts/DeletedTodoContext";
-import { useRefreshTodoMutation } from "../generated";
+import { useDeleteTodoFromTrashMutation } from "../generated";
 type TodoType = {
-  id: string;
   title: string;
+  id: string;
+  // RemoveTodo: (title: string) => void;
 };
-export function Refresh(props: TodoType) {
+export function TrashButton(props: TodoType) {
+  const { title, id } = props;
   const { refetch } = useDeletedTodo();
-  const [refreshTodo, { data }] = useRefreshTodoMutation();
-  const { id, title } = props;
-  //const { Fetch } = useTodo();
-  const handleRefresh = async () => {
+  const [deleteTodo, { data }] = useDeleteTodoFromTrashMutation();
+  const HandleMoveToTrash = async () => {
+    const deleteTodoInput = {
+      id: id,
+    };
     try {
-      // const res = await fetch("http://localhost:8080/refresh", {
-      //   method: "POST",
-      //   mode: "no-cors",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ id: id }),
-      // }).then(function (res) {
-      //   // Fetch();
-      //   setInprogressStatus(true);
-      // });
-      const input = {
-        id: id,
-      };
-      await refreshTodo({ variables: { input: input } }).then((res) =>
-        refetch()
+      await deleteTodo({ variables: { input: deleteTodoInput } }).then(
+        (res) => {
+          refetch();
+        }
       );
     } catch (err) {
       console.log(err);
     }
   };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button variant="outline">
-          <FontAwesomeIcon icon={faArrowsRotate} />
+          <FontAwesomeIcon icon={faTrashCan} />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Are you sure you want to refresh "{title}" from trash
+            Are you sure you want to delete "{title}" from trash?
           </AlertDialogTitle>
           <AlertDialogDescription>
             {/* This action cannot be undone. This will permanently delete your
@@ -66,7 +59,7 @@ export function Refresh(props: TodoType) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => handleRefresh()}>
+          <AlertDialogAction onClick={HandleMoveToTrash}>
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>

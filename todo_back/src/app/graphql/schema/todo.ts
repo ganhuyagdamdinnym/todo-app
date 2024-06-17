@@ -30,15 +30,29 @@ export const TodoTypeDefs = gql`
     name: String
     pass: String!
   }
+  type deletedTodo {
+    _id: String
+    title: String
+    status: Boolean
+    team: String
+    Action: String
+    date: String
+  }
 
   type Query {
     todoQuery: [Todo]
     getUser: [User]
+    getDeletedTodo: [deletedTodo]
+  }
+  input RefreshTodoInput {
+    id: String
   }
   type Mutation {
     todoMutation(input: CreateTodoInput): [Todo]
     deleteTodo(input: DeleteId): Todo
     edithTodo(input: EdithTodoInput): Todo
     signUpUser(input: inputSignUp): User
+    RefreshTodo(input: RefreshTodoInput): Todo
+    deleteTodoFromTrash(input: RefreshTodoInput): Todo
   }
 `;

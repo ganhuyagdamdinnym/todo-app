@@ -1,22 +1,15 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useTodo } from "../_contexts/TodoContext";
-import axios from "axios";
-import { Back_End_url } from "../utils/Back_url";
 import { useStatus } from "../_contexts/StatusContext";
+import { useGetDeletedTodoQueryQuery } from "../generated";
+import { useRouter } from "next/navigation";
 export function ButtonDemo() {
+  const { data, loading, error } = useGetDeletedTodoQueryQuery();
   const { todos, setTodos } = useTodo();
-  const { inprogressStatus, setInprogressStatus } = useStatus();
+  const router = useRouter();
   const HandleDeletedTodo = async () => {
-    setInprogressStatus(false);
-    try {
-      const url = `${Back_End_url}/deletedTodo`;
-      const res = await axios.get(url);
-      console.log(res);
-      setTodos(res.data);
-    } catch (error) {
-      console.log(error);
-    }
+    router.push("/deleted");
   };
   return (
     <Button onClick={() => HandleDeletedTodo()} variant="secondary">

@@ -1,0 +1,9 @@
+mutation RefreshTodo($input: RefreshTodoInput) {
+  RefreshTodo(input: $input) {
+    _id
+    title
+    status
+    team
+    date
+  }
+}

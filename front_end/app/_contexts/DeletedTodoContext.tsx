@@ -12,6 +12,7 @@ import React, {
 import { Back_End_url } from "../utils/Back_url";
 import { useGetTodoQueryQuery } from "../generated";
 import { ApolloQueryResult } from "@apollo/client";
+import { useGetDeletedTodoQueryQuery } from "../generated";
 // const { data, loading, error } = useGetTodoQueryQuery();
 // if (loading) {
 //   return <div>This is loading</div>;
@@ -24,38 +25,41 @@ type Props = {
   children: ReactNode;
 };
 type contextType = {
-  todos: TodoType[];
-  setTodos: (todos: any) => void;
+  deletedtodos: TodoType[];
+  setDeletedTodos: (deletedtodos: any) => void;
   loading: boolean;
   error: any;
+  fetch: () => void;
   refetch: (variables?: Partial<any>) => Promise<ApolloQueryResult<any>>;
 };
-const todoContext = createContext({} as contextType);
-export const useTodo = () => {
-  return useContext(todoContext);
+const deletedTodoContext = createContext({} as contextType);
+export const useDeletedTodo = () => {
+  return useContext(deletedTodoContext);
 };
 //wrap component gaduurn oroodog
-const TodoProvider = (props: Props) => {
+const DeletedTodoProvider = (props: Props) => {
   // const [todos, setTodos] = useState<TodoType[]>([]);
-  const { data, loading, error, refetch } = useGetTodoQueryQuery();
-  //console.log("queryData", data);
+  const { data, loading, error, refetch } = useGetDeletedTodoQueryQuery();
+  console.log("queryData", data);
   //const todos = data?.todoQuery as TodoType[];
   const { children } = props;
-  const [todos, setTodos] = useState<TodoType[]>([]);
+  const [deletedtodos, setDeletedTodos] = useState<TodoType[]>([]);
   const fetch = () => {
     refetch();
   };
   useEffect(() => {
     fetch();
-    if (data && data.todoQuery) {
-      setTodos(data.todoQuery as TodoType[]);
+    if (data && data.getDeletedTodo) {
+      setDeletedTodos(data.getDeletedTodo as TodoType[]);
     }
   }, [data]);
 
   return (
-    <todoContext.Provider value={{ todos, setTodos, loading, error, refetch }}>
+    <deletedTodoContext.Provider
+      value={{ deletedtodos, setDeletedTodos, loading, error, fetch, refetch }}
+    >
       {children}
-    </todoContext.Provider>
+    </deletedTodoContext.Provider>
   );
 };
-export default TodoProvider;
+export default DeletedTodoProvider;

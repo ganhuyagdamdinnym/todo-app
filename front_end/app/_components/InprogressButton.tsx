@@ -1,23 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useTodo } from "../_contexts/TodoContext";
-import axios from "axios";
-import { Back_End_url } from "../utils/Back_url";
-import { useStatus } from "../_contexts/StatusContext";
+import { useRouter } from "next/navigation";
 export function Inprogress() {
-  const { inprogressStatus, setInprogressStatus } = useStatus();
+  const router = useRouter();
 
-  const { todos, setTodos } = useTodo();
-  const handleData = async () => {
-    try {
-      const url = `${Back_End_url}/api`;
-      const res = await axios.get(url);
-      console.log(res);
-      setTodos(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-    setInprogressStatus(true);
-  };
-  return <Button onClick={() => handleData()}>In progress</Button>;
+  return (
+    <Button onClick={() => router.push("/")} className="ml-2 ">
+      In progress
+    </Button>
+  );
 }

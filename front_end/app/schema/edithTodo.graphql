@@ -1,0 +1,9 @@
+mutation EdithMutation($input: EdithTodoInput) {
+  edithTodo(input: $input) {
+    _id
+    title
+    status
+    team
+    date
+  }
+}

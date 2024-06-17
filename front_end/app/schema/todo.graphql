@@ -1,0 +1,9 @@
+query getTodoQuery {
+  todoQuery {
+    _id
+    title
+    status
+    team
+    date
+  }
+}

@@ -1,0 +1,9 @@
+query getDeletedTodoQuery {
+  getDeletedTodo {
+    _id
+    title
+    status
+    team
+    date
+  }
+}

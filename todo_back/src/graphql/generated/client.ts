@@ -31,15 +31,27 @@ export type EdithTodoInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  RefreshTodo?: Maybe<Todo>;
   deleteTodo?: Maybe<Todo>;
+  deleteTodoFromTrash?: Maybe<Todo>;
   edithTodo?: Maybe<Todo>;
   signUpUser?: Maybe<User>;
   todoMutation?: Maybe<Array<Maybe<Todo>>>;
 };
 
 
+export type MutationRefreshTodoArgs = {
+  input?: InputMaybe<RefreshTodoInput>;
+};
+
+
 export type MutationDeleteTodoArgs = {
   input?: InputMaybe<DeleteId>;
+};
+
+
+export type MutationDeleteTodoFromTrashArgs = {
+  input?: InputMaybe<RefreshTodoInput>;
 };
 
 
@@ -59,8 +71,13 @@ export type MutationTodoMutationArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getDeletedTodo?: Maybe<Array<Maybe<DeletedTodo>>>;
   getUser?: Maybe<Array<Maybe<User>>>;
   todoQuery?: Maybe<Array<Maybe<Todo>>>;
+};
+
+export type RefreshTodoInput = {
+  id?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Todo = {
@@ -77,6 +94,16 @@ export type User = {
   email?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+};
+
+export type DeletedTodo = {
+  __typename?: 'deletedTodo';
+  Action?: Maybe<Scalars['String']['output']>;
+  _id?: Maybe<Scalars['String']['output']>;
+  date?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<Scalars['Boolean']['output']>;
+  team?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
 };
 
 export type InputSignUp = {

@@ -12,27 +12,40 @@ import {
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useStatus } from "../_contexts/StatusContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { useTodo } from "../_contexts/TodoContext";
+import { useDeleteTodoMutation } from "../generated";
 type TodoType = {
-  deletingTodo: string;
   title: string;
   id: string;
   RemoveTodo: (title: string) => void;
-  HandleMoveToTrash: () => void;
 };
 export function AlertDialogDemo(props: TodoType) {
-  const { deletingTodo, title, RemoveTodo, HandleMoveToTrash, id } = props;
+  const { title, RemoveTodo, id } = props;
   const { inprogressStatus, setInprogressStatus } = useStatus();
+  const { refetch } = useTodo();
+  const [removeTodo, {}] = useDeleteTodoMutation();
+  const HandleMoveToTrash = async () => {
+    const deleteTodoInput = {
+      id: id,
+    };
+    try {
+      await removeTodo({ variables: { input: deleteTodoInput } }).then(
+        (res) => {
+          refetch();
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button onClick={() => RemoveTodo(id)} variant="outline">
-          <Image
-            alt="photo"
-            src="trash.svg"
-            //  onClick={() => RemoveTodo()}
-            height={15}
-            width={15}
-          />
+          <FontAwesomeIcon icon={faTrashCan} />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>

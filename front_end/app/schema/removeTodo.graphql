@@ -1,0 +1,9 @@
+mutation deleteTodo($input: DeleteId) {
+  deleteTodo(input: $input) {
+    _id
+    title
+    status
+    team
+    date
+  }
+}

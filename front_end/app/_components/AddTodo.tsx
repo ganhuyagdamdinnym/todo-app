@@ -8,43 +8,30 @@ import { title } from "process";
 import { Back_End_url } from "../utils/Back_url";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { useTodoMutationMutation } from "../generated";
 export const AddTodo = () => {
-  const { todos, setTodos, Fetch } = useTodo();
-  const { advice, setAdvice, adviceStatus, setAdviceStatus } = useAdvice();
+  const { todos, refetch } = useTodo();
   const [status, setStatus] = useState<number>(0);
   const [selectTeam, setSelectTeam] = useState<string>("Team-1");
   const [titleVal, setTitleval] = useState<string>("");
   const TeamArray = ["Team-1", "Team-2", "Team-3"];
-  const notify = () => toast("Wow so easy!");
+  const [AddTodoMutation, { data, loading, error }] = useTodoMutationMutation();
   const HandleAdd = async () => {
     toast("Creating todo!");
     const date = Date.now();
     console.log(date);
-    todos.filter(async (todo) => {
-      if (todo.title == titleVal) {
-        setStatus(1);
-      } else {
-      }
+    const todoInput = {
+      title: titleVal,
+      team: selectTeam,
+      // date: new Date().toISOString(),
+    };
+
+    await AddTodoMutation({
+      variables: { input: todoInput },
+    }).then((res) => {
+      refetch();
     });
-    try {
-      const res = await fetch(`${Back_End_url}/api`, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: titleVal,
-          team: selectTeam,
-          dateCreate: date,
-        }),
-      }).then(function (res) {
-        Fetch();
-        setTitleval("");
-      });
-      // setStatus(0);
-    } catch (err) {
-      console.log(err);
-    }
+    // fetch();
   };
   return (
     <div className="flex gap-2 max-w-[700px] m-auto ">

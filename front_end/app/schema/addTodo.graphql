@@ -1,0 +1,9 @@
+mutation TodoMutation($input: CreateTodoInput) {
+  todoMutation(input: $input) {
+    _id
+    title
+    status
+    team
+    date
+  }
+}
