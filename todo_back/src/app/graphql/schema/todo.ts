@@ -30,6 +30,10 @@ export const TodoTypeDefs = gql`
     name: String
     pass: String!
   }
+  input LoginUserInput {
+    email: String
+    pass: String!
+  }
   type deletedTodo {
     _id: String
     title: String
@@ -54,5 +58,6 @@ export const TodoTypeDefs = gql`
     signUpUser(input: inputSignUp): User
     RefreshTodo(input: RefreshTodoInput): Todo
     deleteTodoFromTrash(input: RefreshTodoInput): Todo
+    loginUser(input: LoginUserInput): String
   }
 `;

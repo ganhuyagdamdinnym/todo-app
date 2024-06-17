@@ -6,29 +6,32 @@ import { Back_End_url } from "../utils/Back_url";
 import { useStatus } from "../_contexts/StatusContext";
 import { useToken } from "../_contexts/TokenContext";
 import { useRouter } from "next/navigation";
-
+import { useLoginUserMutation } from "../generated";
 type PropsType = {
   email: string;
   pass: string;
 };
 
 export function ButtonLogin(props: PropsType) {
+  const [loginUser, { data }] = useLoginUserMutation();
   const { email, pass } = props;
   const { token, setToken } = useToken();
   const router = useRouter();
   const HandleLogin = async () => {
+    const inputUser = { email: email, pass: pass };
     try {
-      const res = await axios.post(`${Back_End_url}/login`, {
-        email: email,
-        pass: pass,
-      });
-      console.log(res);
-      if (res.data.token) {
-        localStorage.setItem("token", res.data.token);
-        router.push("/");
-      }
-      // localStorage.removeItem("basket");
-      // setToken(res.data.token);
+      await loginUser({ variables: { input: inputUser } });
+      // const res = await axios.post(`${Back_End_url}/login`, {
+      //   email: email,
+      //   pass: pass,
+      // });
+      // console.log(res);
+      // if (res.data.token) {
+      //   localStorage.setItem("token", res.data.token);
+      //   router.push("/");
+      // }
+      // // localStorage.removeItem("basket");
+      // // setToken(res.data.token);
     } catch (err) {}
     console.log(email);
   };

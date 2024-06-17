@@ -29,12 +29,18 @@ export type EdithTodoInput = {
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type LoginUserInput = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  pass: Scalars['String']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   RefreshTodo?: Maybe<Todo>;
   deleteTodo?: Maybe<Todo>;
   deleteTodoFromTrash?: Maybe<Todo>;
   edithTodo?: Maybe<Todo>;
+  loginUser?: Maybe<Scalars['String']['output']>;
   signUpUser?: Maybe<User>;
   todoMutation?: Maybe<Array<Maybe<Todo>>>;
 };
@@ -57,6 +63,11 @@ export type MutationDeleteTodoFromTrashArgs = {
 
 export type MutationEdithTodoArgs = {
   input?: InputMaybe<EdithTodoInput>;
+};
+
+
+export type MutationLoginUserArgs = {
+  input?: InputMaybe<LoginUserInput>;
 };
 
 

@@ -3,8 +3,6 @@ import { Input } from "@/components/ui/input";
 import { ButtonLogin } from "../_components/LoginButton";
 import { useState } from "react";
 import { ButtonSignUp } from "../_components/SignUpButton";
-import { Value } from "@radix-ui/react-select";
-import { useToken } from "../_contexts/TokenContext";
 export default function Login() {
   const [isClickSignUp, setisClickSignUp] = useState<boolean>(false);
   const [emailVal, setEmailVal] = useState<string>("");

@@ -34,12 +34,18 @@ export type EdithTodoInput = {
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type LoginUserInput = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  pass: Scalars['String']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   RefreshTodo?: Maybe<Todo>;
   deleteTodo?: Maybe<Todo>;
   deleteTodoFromTrash?: Maybe<Todo>;
   edithTodo?: Maybe<Todo>;
+  loginUser?: Maybe<Scalars['String']['output']>;
   signUpUser?: Maybe<User>;
   todoMutation?: Maybe<Array<Maybe<Todo>>>;
 };
@@ -62,6 +68,11 @@ export type MutationDeleteTodoFromTrashArgs = {
 
 export type MutationEdithTodoArgs = {
   input?: InputMaybe<EdithTodoInput>;
+};
+
+
+export type MutationLoginUserArgs = {
+  input?: InputMaybe<LoginUserInput>;
 };
 
 
@@ -124,6 +135,13 @@ export type TodoMutationMutationVariables = Exact<{
 
 export type TodoMutationMutation = { __typename?: 'Mutation', todoMutation?: Array<{ __typename?: 'Todo', _id?: string | null, title?: string | null, status?: boolean | null, team?: string | null, date?: string | null } | null> | null };
 
+export type SignUpUserMutationVariables = Exact<{
+  input?: InputMaybe<InputSignUp>;
+}>;
+
+
+export type SignUpUserMutation = { __typename?: 'Mutation', signUpUser?: { __typename?: 'User', id?: string | null, email?: string | null, name?: string | null } | null };
+
 export type DeleteTodoFromTrashMutationVariables = Exact<{
   input?: InputMaybe<RefreshTodoInput>;
 }>;
@@ -142,6 +160,11 @@ export type EdithMutationMutationVariables = Exact<{
 
 
 export type EdithMutationMutation = { __typename?: 'Mutation', edithTodo?: { __typename?: 'Todo', _id?: string | null, title?: string | null, status?: boolean | null, team?: string | null, date?: string | null } | null };
+
+export type LoginUserMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LoginUserMutation = { __typename?: 'Mutation', loginUser?: string | null };
 
 export type RefreshTodoMutationVariables = Exact<{
   input?: InputMaybe<RefreshTodoInput>;
@@ -213,6 +236,54 @@ export function useTodoMutationMutation(baseOptions?: Apollo.MutationHookOptions
 export type TodoMutationMutationHookResult = ReturnType<typeof useTodoMutationMutation>;
 export type TodoMutationMutationResult = Apollo.MutationResult<TodoMutationMutation>;
 export type TodoMutationMutationOptions = Apollo.BaseMutationOptions<TodoMutationMutation, TodoMutationMutationVariables>;
+export const SignUpUserDocument = gql`
+    mutation SignUpUser($input: inputSignUp) {
+  signUpUser(input: $input) {
+    id
+    email
+    name
+  }
+}
+    `;
+export type SignUpUserMutationFn = Apollo.MutationFunction<SignUpUserMutation, SignUpUserMutationVariables>;
+export type SignUpUserProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<SignUpUserMutation, SignUpUserMutationVariables>
+    } & TChildProps;
+export function withSignUpUser<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  SignUpUserMutation,
+  SignUpUserMutationVariables,
+  SignUpUserProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, SignUpUserMutation, SignUpUserMutationVariables, SignUpUserProps<TChildProps, TDataName>>(SignUpUserDocument, {
+      alias: 'signUpUser',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useSignUpUserMutation__
+ *
+ * To run a mutation, you first call `useSignUpUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignUpUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signUpUserMutation, { data, loading, error }] = useSignUpUserMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSignUpUserMutation(baseOptions?: Apollo.MutationHookOptions<SignUpUserMutation, SignUpUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SignUpUserMutation, SignUpUserMutationVariables>(SignUpUserDocument, options);
+      }
+export type SignUpUserMutationHookResult = ReturnType<typeof useSignUpUserMutation>;
+export type SignUpUserMutationResult = Apollo.MutationResult<SignUpUserMutation>;
+export type SignUpUserMutationOptions = Apollo.BaseMutationOptions<SignUpUserMutation, SignUpUserMutationVariables>;
 export const DeleteTodoFromTrashDocument = gql`
     mutation DeleteTodoFromTrash($input: RefreshTodoInput) {
   deleteTodoFromTrash(input: $input) {
@@ -369,6 +440,49 @@ export function useEdithMutationMutation(baseOptions?: Apollo.MutationHookOption
 export type EdithMutationMutationHookResult = ReturnType<typeof useEdithMutationMutation>;
 export type EdithMutationMutationResult = Apollo.MutationResult<EdithMutationMutation>;
 export type EdithMutationMutationOptions = Apollo.BaseMutationOptions<EdithMutationMutation, EdithMutationMutationVariables>;
+export const LoginUserDocument = gql`
+    mutation LoginUser {
+  loginUser
+}
+    `;
+export type LoginUserMutationFn = Apollo.MutationFunction<LoginUserMutation, LoginUserMutationVariables>;
+export type LoginUserProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<LoginUserMutation, LoginUserMutationVariables>
+    } & TChildProps;
+export function withLoginUser<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  LoginUserMutation,
+  LoginUserMutationVariables,
+  LoginUserProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, LoginUserMutation, LoginUserMutationVariables, LoginUserProps<TChildProps, TDataName>>(LoginUserDocument, {
+      alias: 'loginUser',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useLoginUserMutation__
+ *
+ * To run a mutation, you first call `useLoginUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginUserMutation, { data, loading, error }] = useLoginUserMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLoginUserMutation(baseOptions?: Apollo.MutationHookOptions<LoginUserMutation, LoginUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginUserMutation, LoginUserMutationVariables>(LoginUserDocument, options);
+      }
+export type LoginUserMutationHookResult = ReturnType<typeof useLoginUserMutation>;
+export type LoginUserMutationResult = Apollo.MutationResult<LoginUserMutation>;
+export type LoginUserMutationOptions = Apollo.BaseMutationOptions<LoginUserMutation, LoginUserMutationVariables>;
 export const RefreshTodoDocument = gql`
     mutation RefreshTodo($input: RefreshTodoInput) {
   RefreshTodo(input: $input) {

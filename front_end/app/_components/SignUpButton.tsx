@@ -1,27 +1,28 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import { useTodo } from "../_contexts/TodoContext";
 import { Back_End_url } from "../utils/Back_url";
-import { useStatus } from "../_contexts/StatusContext";
+import { useSignUpUserMutation } from "../generated";
+
 type PropsType = {
   email: string;
   name: string;
   pass: string;
 };
 export function ButtonSignUp(props: PropsType) {
+  const [signUp, { data }] = useSignUpUserMutation();
   const { email, name, pass } = props;
   //   const { todos, setTodos } = useTodo();
   //   const { inprogressStatus, setInprogressStatus } = useStatus();
   const HandleSignup = async () => {
     console.log(email);
+    const signUpInput = {
+      email: email,
+      name: name,
+      pass: pass,
+    };
     try {
-      const res = await axios.post(`${Back_End_url}/signUp`, {
-        email: email,
-        name: name,
-        pass: pass,
-      });
-      // setStatus(0);
+      await signUp({ variables: { input: signUpInput } });
     } catch (err) {
       console.log(err);
     }
