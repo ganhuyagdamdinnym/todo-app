@@ -15,14 +15,16 @@ export function ButtonSignUp(props: PropsType) {
   //   const { todos, setTodos } = useTodo();
   //   const { inprogressStatus, setInprogressStatus } = useStatus();
   const HandleSignup = async () => {
-    console.log(email);
+    //console.log(email);
     const signUpInput = {
       email: email,
       name: name,
       pass: pass,
     };
     try {
-      await signUp({ variables: { input: signUpInput } });
+      await signUp({
+        variables: { input: { email: email, name: name, pass: pass } },
+      });
     } catch (err) {
       console.log(err);
     }

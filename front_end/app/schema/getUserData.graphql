@@ -1,0 +1,14 @@
+query GetTodoFromUser($input: Token) {
+  getTodoFromUser(input: $input) {
+    email
+    name
+    password
+    todos {
+      _id
+      title
+      status
+      team
+      date
+    }
+  }
+}

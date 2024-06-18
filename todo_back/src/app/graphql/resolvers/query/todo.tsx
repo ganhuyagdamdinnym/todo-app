@@ -22,7 +22,7 @@ import { TodoModel } from "@/models/todo-model";
 export const todoQuery = async () => {
   try {
     const todos = await TodoModel.find();
-    console.log("todo", todos);
+    //console.log("todo", todos);
     return todos;
   } catch (error) {
     console.error("Error fetching todos:", error);

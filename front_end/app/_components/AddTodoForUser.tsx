@@ -9,38 +9,32 @@ import { Back_End_url } from "../utils/Back_url";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useTodoMutationMutation } from "../generated";
-import { useCreateTodoToUserMutation } from "../generated";
-import { useUserTodo } from "../_contexts/UserTodoContext";
-export const AddTodo = () => {
-  const { refetch } = useUserTodo();
+export const AddTodoForUser = () => {
+  const { todos, refetch } = useTodo();
   const [status, setStatus] = useState<number>(0);
   const [selectTeam, setSelectTeam] = useState<string>("Team-1");
   const [titleVal, setTitleval] = useState<string>("");
   const TeamArray = ["Team-1", "Team-2", "Team-3"];
-  ///const [AddTodoMutation, { data, loading, error }] = useTodoMutationMutation();
-  const [AddTodo, { data, loading, error }] = useCreateTodoToUserMutation();
+  const [AddTodoMutation, { data, loading, error }] = useTodoMutationMutation();
   const HandleAdd = async () => {
-    toast("Creating todo!");
-    const date = Date.now();
-
-    console.log(new Date().toISOString());
-    const todoInput = {
-      title: titleVal,
-      team: selectTeam,
-      date: new Date().toISOString(),
-      token: localStorage.getItem("token"),
-    };
-
-    await AddTodo({
-      variables: { input: todoInput },
-    }).then((res) => {
-      refetch();
-    });
-    // fetch();
+    alert("add");
+    // toast("Creating todo!");
+    // const date = Date.now();
+    // console.log(date);
+    // const todoInput = {
+    //   title: titleVal,
+    //   team: selectTeam,
+    //   // date: new Date().toISOString(),
+    // };
+    // await AddTodoMutation({
+    //   variables: { input: todoInput },
+    // }).then((res) => {
+    //   refetch();
+    // });
+    // fetch(); bugd h
   };
   return (
     <div className="flex gap-2 max-w-[700px] m-auto ">
-      {/* <div className="w-4 h-4 bg-[red]" onClick={() => ref()}></div> */}
       <input
         className="w-[525px] border-[1px] rounded-xl px-2"
         onChange={(e) => setTitleval(e.target.value)}

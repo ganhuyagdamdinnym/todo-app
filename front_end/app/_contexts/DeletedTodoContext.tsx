@@ -20,7 +20,7 @@ import { useGetDeletedTodoQueryQuery } from "../generated";
 
 // if (!loading) {
 //   return <div style={{ color: "white", fontSize: "40px" }}>hi</div>;
-// }
+// } bugd novsh
 type Props = {
   children: ReactNode;
 };

@@ -6,6 +6,7 @@ import { ThemeProvider } from "./_components/DarkMode";
 import { Children } from "react";
 import ApolloProviders from "./_contexts/ApolloProvider";
 import DeletedTodoProvider from "./_contexts/DeletedTodoContext";
+import UserTodoProvider from "./_contexts/UserTodoContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -31,7 +32,9 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <TodoProvider>
-              <DeletedTodoProvider>{children}</DeletedTodoProvider>
+              <UserTodoProvider>
+                <DeletedTodoProvider>{children}</DeletedTodoProvider>
+              </UserTodoProvider>
               {/* <TokenProvider>{children}</TokenProvider> */}
             </TodoProvider>
           </ThemeProvider>

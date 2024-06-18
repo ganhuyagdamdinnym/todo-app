@@ -12,12 +12,15 @@ import TokenProvider from "./_contexts/TokenContext";
 import { PublicButton } from "./_components/PublicButton";
 import { ProvideButton } from "./_components/PrivadeButton";
 import { useGetTodoQueryQuery } from "./generated";
+import { useUserTodo } from "./_contexts/UserTodoContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 export default function Home() {
   const { data, loading, error } = useGetTodoQueryQuery();
+  const { name } = useUserTodo();
   if (loading) {
     return <div>This is loading</div>;
   }
-
   if (!loading) {
     return (
       <TokenProvider>
@@ -26,14 +29,18 @@ export default function Home() {
             <div className="w-full flex justify-between">
               <AddTodo />
               <div style={{ position: "fixed" }} className="flex gap-2">
-                {/* <SelectDemo /> */}
-                <PublicButton />
+                <SelectDemo />
+                {/* <PublicButton /> */}
                 <ProvideButton />
               </div>
               <div
                 style={{ position: "fixed", right: "20px" }}
-                className="flex justify-center gap-2"
+                className="flex justify-center gap-2 items-center"
               >
+                <div className="flex gap-2 justify-center items-center">
+                  <FontAwesomeIcon icon={faUser} />
+                  {name}
+                </div>
                 <ButtonDemo />
                 <ToastContainer />
                 <ModeToggle />

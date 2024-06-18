@@ -5,3 +5,5 @@ export * from "./deleteTodo";
 export * from "./refreshTodo";
 export * from "./deleteTodoFromTrash";
 export * from "./loginUser";
+export * from "./createTodoToUser";
+export * from "./getTodoFromUser";

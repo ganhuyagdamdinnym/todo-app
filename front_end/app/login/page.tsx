@@ -62,7 +62,7 @@ export default function Login() {
               placeholder="Password"
               onChange={(e) => setLoginPass(e.target.value)}
             />
-            <ButtonLogin pass={loginPass} email={loginEmailVal} />
+            <ButtonLogin loginPass={loginPass} loginEmail={loginEmailVal} />
           </div>
         )}
       </div>

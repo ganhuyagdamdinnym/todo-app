@@ -8,14 +8,13 @@ export type TodoType = {
 };
 
 type userTodosType = {
+  _id: String;
   title: String;
   status: Boolean;
   team: String;
-  Action: String;
   date: String;
 };
 export type UserType = {
-  _id: string;
   password: string;
   name: string;
   email: string;

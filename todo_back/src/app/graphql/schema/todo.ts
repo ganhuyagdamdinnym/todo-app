@@ -8,9 +8,22 @@ export const TodoTypeDefs = gql`
     team: String
     date: String
   }
+  type User {
+    email: String
+    name: String
+    password: String
+    todos: [Todo]
+  }
   input CreateTodoInput {
     title: String
     team: String
+  }
+  input CreateTodoToUserInput {
+    title: String
+    team: String
+    id: String
+    token: String
+    date: String
   }
   input DeleteId {
     id: String
@@ -20,14 +33,9 @@ export const TodoTypeDefs = gql`
     title: String
     team: String
   }
-  type User {
-    id: String
-    email: String
-    name: String
-  }
   input inputSignUp {
-    email: String
-    name: String
+    email: String!
+    name: String!
     pass: String!
   }
   input LoginUserInput {
@@ -42,16 +50,21 @@ export const TodoTypeDefs = gql`
     Action: String
     date: String
   }
-
+  input Token {
+    token: String
+  }
   type Query {
     todoQuery: [Todo]
     getUser: [User]
     getDeletedTodo: [deletedTodo]
+    getTodoFromUser(input: Token): [User]
   }
   input RefreshTodoInput {
     id: String
   }
+
   type Mutation {
+    getTodoFromUser(input: Token): [User]
     todoMutation(input: CreateTodoInput): [Todo]
     deleteTodo(input: DeleteId): Todo
     edithTodo(input: EdithTodoInput): Todo
@@ -59,5 +72,6 @@ export const TodoTypeDefs = gql`
     RefreshTodo(input: RefreshTodoInput): Todo
     deleteTodoFromTrash(input: RefreshTodoInput): Todo
     loginUser(input: LoginUserInput): String
+    CreateTodoToUser(input: CreateTodoToUserInput): [Todo]
   }
 `;

@@ -24,6 +24,14 @@ export type CreateTodoInput = {
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type CreateTodoToUserInput = {
+  date?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  team?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  token?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type DeleteId = {
   id?: InputMaybe<Scalars['String']['input']>;
 };
@@ -41,13 +49,20 @@ export type LoginUserInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  CreateTodoToUser?: Maybe<Array<Maybe<Todo>>>;
   RefreshTodo?: Maybe<Todo>;
   deleteTodo?: Maybe<Todo>;
   deleteTodoFromTrash?: Maybe<Todo>;
   edithTodo?: Maybe<Todo>;
+  getTodoFromUser?: Maybe<Array<Maybe<User>>>;
   loginUser?: Maybe<Scalars['String']['output']>;
   signUpUser?: Maybe<User>;
   todoMutation?: Maybe<Array<Maybe<Todo>>>;
+};
+
+
+export type MutationCreateTodoToUserArgs = {
+  input?: InputMaybe<CreateTodoToUserInput>;
 };
 
 
@@ -71,6 +86,11 @@ export type MutationEdithTodoArgs = {
 };
 
 
+export type MutationGetTodoFromUserArgs = {
+  input?: InputMaybe<Token>;
+};
+
+
 export type MutationLoginUserArgs = {
   input?: InputMaybe<LoginUserInput>;
 };
@@ -88,8 +108,14 @@ export type MutationTodoMutationArgs = {
 export type Query = {
   __typename?: 'Query';
   getDeletedTodo?: Maybe<Array<Maybe<DeletedTodo>>>;
+  getTodoFromUser?: Maybe<Array<Maybe<User>>>;
   getUser?: Maybe<Array<Maybe<User>>>;
   todoQuery?: Maybe<Array<Maybe<Todo>>>;
+};
+
+
+export type QueryGetTodoFromUserArgs = {
+  input?: InputMaybe<Token>;
 };
 
 export type RefreshTodoInput = {
@@ -105,11 +131,16 @@ export type Todo = {
   title?: Maybe<Scalars['String']['output']>;
 };
 
+export type Token = {
+  token?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type User = {
   __typename?: 'User';
   email?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  password?: Maybe<Scalars['String']['output']>;
+  todos?: Maybe<Array<Maybe<Todo>>>;
 };
 
 export type DeletedTodo = {
@@ -123,8 +154,8 @@ export type DeletedTodo = {
 };
 
 export type InputSignUp = {
-  email?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
   pass: Scalars['String']['input'];
 };
 
@@ -135,12 +166,17 @@ export type TodoMutationMutationVariables = Exact<{
 
 export type TodoMutationMutation = { __typename?: 'Mutation', todoMutation?: Array<{ __typename?: 'Todo', _id?: string | null, title?: string | null, status?: boolean | null, team?: string | null, date?: string | null } | null> | null };
 
-export type SignUpUserMutationVariables = Exact<{
-  input?: InputMaybe<InputSignUp>;
+export type CreateTodoToUserMutationVariables = Exact<{
+  input?: InputMaybe<CreateTodoToUserInput>;
 }>;
 
 
-export type SignUpUserMutation = { __typename?: 'Mutation', signUpUser?: { __typename?: 'User', id?: string | null, email?: string | null, name?: string | null } | null };
+export type CreateTodoToUserMutation = { __typename?: 'Mutation', CreateTodoToUser?: Array<{ __typename?: 'Todo', _id?: string | null, title?: string | null, status?: boolean | null, team?: string | null, date?: string | null } | null> | null };
+
+export type SignUpUserMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SignUpUserMutation = { __typename?: 'Mutation', signUpUser?: { __typename?: 'User', email?: string | null, name?: string | null, password?: string | null } | null };
 
 export type DeleteTodoFromTrashMutationVariables = Exact<{
   input?: InputMaybe<RefreshTodoInput>;
@@ -161,7 +197,16 @@ export type EdithMutationMutationVariables = Exact<{
 
 export type EdithMutationMutation = { __typename?: 'Mutation', edithTodo?: { __typename?: 'Todo', _id?: string | null, title?: string | null, status?: boolean | null, team?: string | null, date?: string | null } | null };
 
-export type LoginUserMutationVariables = Exact<{ [key: string]: never; }>;
+export type GetTodoFromUserQueryVariables = Exact<{
+  input?: InputMaybe<Token>;
+}>;
+
+
+export type GetTodoFromUserQuery = { __typename?: 'Query', getTodoFromUser?: Array<{ __typename?: 'User', email?: string | null, name?: string | null, password?: string | null, todos?: Array<{ __typename?: 'Todo', _id?: string | null, title?: string | null, status?: boolean | null, team?: string | null, date?: string | null } | null> | null } | null> | null };
+
+export type LoginUserMutationVariables = Exact<{
+  input?: InputMaybe<LoginUserInput>;
+}>;
 
 
 export type LoginUserMutation = { __typename?: 'Mutation', loginUser?: string | null };
@@ -236,12 +281,62 @@ export function useTodoMutationMutation(baseOptions?: Apollo.MutationHookOptions
 export type TodoMutationMutationHookResult = ReturnType<typeof useTodoMutationMutation>;
 export type TodoMutationMutationResult = Apollo.MutationResult<TodoMutationMutation>;
 export type TodoMutationMutationOptions = Apollo.BaseMutationOptions<TodoMutationMutation, TodoMutationMutationVariables>;
+export const CreateTodoToUserDocument = gql`
+    mutation CreateTodoToUser($input: CreateTodoToUserInput) {
+  CreateTodoToUser(input: $input) {
+    _id
+    title
+    status
+    team
+    date
+  }
+}
+    `;
+export type CreateTodoToUserMutationFn = Apollo.MutationFunction<CreateTodoToUserMutation, CreateTodoToUserMutationVariables>;
+export type CreateTodoToUserProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<CreateTodoToUserMutation, CreateTodoToUserMutationVariables>
+    } & TChildProps;
+export function withCreateTodoToUser<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CreateTodoToUserMutation,
+  CreateTodoToUserMutationVariables,
+  CreateTodoToUserProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateTodoToUserMutation, CreateTodoToUserMutationVariables, CreateTodoToUserProps<TChildProps, TDataName>>(CreateTodoToUserDocument, {
+      alias: 'createTodoToUser',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useCreateTodoToUserMutation__
+ *
+ * To run a mutation, you first call `useCreateTodoToUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateTodoToUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createTodoToUserMutation, { data, loading, error }] = useCreateTodoToUserMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateTodoToUserMutation(baseOptions?: Apollo.MutationHookOptions<CreateTodoToUserMutation, CreateTodoToUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateTodoToUserMutation, CreateTodoToUserMutationVariables>(CreateTodoToUserDocument, options);
+      }
+export type CreateTodoToUserMutationHookResult = ReturnType<typeof useCreateTodoToUserMutation>;
+export type CreateTodoToUserMutationResult = Apollo.MutationResult<CreateTodoToUserMutation>;
+export type CreateTodoToUserMutationOptions = Apollo.BaseMutationOptions<CreateTodoToUserMutation, CreateTodoToUserMutationVariables>;
 export const SignUpUserDocument = gql`
-    mutation SignUpUser($input: inputSignUp) {
-  signUpUser(input: $input) {
-    id
+    mutation SignUpUser {
+  signUpUser {
     email
     name
+    password
   }
 }
     `;
@@ -273,7 +368,6 @@ export function withSignUpUser<TProps, TChildProps = {}, TDataName extends strin
  * @example
  * const [signUpUserMutation, { data, loading, error }] = useSignUpUserMutation({
  *   variables: {
- *      input: // value for 'input'
  *   },
  * });
  */
@@ -440,9 +534,71 @@ export function useEdithMutationMutation(baseOptions?: Apollo.MutationHookOption
 export type EdithMutationMutationHookResult = ReturnType<typeof useEdithMutationMutation>;
 export type EdithMutationMutationResult = Apollo.MutationResult<EdithMutationMutation>;
 export type EdithMutationMutationOptions = Apollo.BaseMutationOptions<EdithMutationMutation, EdithMutationMutationVariables>;
+export const GetTodoFromUserDocument = gql`
+    query GetTodoFromUser($input: Token) {
+  getTodoFromUser(input: $input) {
+    email
+    name
+    password
+    todos {
+      _id
+      title
+      status
+      team
+      date
+    }
+  }
+}
+    `;
+export type GetTodoFromUserProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<GetTodoFromUserQuery, GetTodoFromUserQueryVariables>
+    } & TChildProps;
+export function withGetTodoFromUser<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  GetTodoFromUserQuery,
+  GetTodoFromUserQueryVariables,
+  GetTodoFromUserProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, GetTodoFromUserQuery, GetTodoFromUserQueryVariables, GetTodoFromUserProps<TChildProps, TDataName>>(GetTodoFromUserDocument, {
+      alias: 'getTodoFromUser',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useGetTodoFromUserQuery__
+ *
+ * To run a query within a React component, call `useGetTodoFromUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTodoFromUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTodoFromUserQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetTodoFromUserQuery(baseOptions?: Apollo.QueryHookOptions<GetTodoFromUserQuery, GetTodoFromUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTodoFromUserQuery, GetTodoFromUserQueryVariables>(GetTodoFromUserDocument, options);
+      }
+export function useGetTodoFromUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTodoFromUserQuery, GetTodoFromUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTodoFromUserQuery, GetTodoFromUserQueryVariables>(GetTodoFromUserDocument, options);
+        }
+export function useGetTodoFromUserSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTodoFromUserQuery, GetTodoFromUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTodoFromUserQuery, GetTodoFromUserQueryVariables>(GetTodoFromUserDocument, options);
+        }
+export type GetTodoFromUserQueryHookResult = ReturnType<typeof useGetTodoFromUserQuery>;
+export type GetTodoFromUserLazyQueryHookResult = ReturnType<typeof useGetTodoFromUserLazyQuery>;
+export type GetTodoFromUserSuspenseQueryHookResult = ReturnType<typeof useGetTodoFromUserSuspenseQuery>;
+export type GetTodoFromUserQueryResult = Apollo.QueryResult<GetTodoFromUserQuery, GetTodoFromUserQueryVariables>;
 export const LoginUserDocument = gql`
-    mutation LoginUser {
-  loginUser
+    mutation LoginUser($input: LoginUserInput) {
+  loginUser(input: $input)
 }
     `;
 export type LoginUserMutationFn = Apollo.MutationFunction<LoginUserMutation, LoginUserMutationVariables>;
@@ -473,6 +629,7 @@ export function withLoginUser<TProps, TChildProps = {}, TDataName extends string
  * @example
  * const [loginUserMutation, { data, loading, error }] = useLoginUserMutation({
  *   variables: {
+ *      input: // value for 'input'
  *   },
  * });
  */

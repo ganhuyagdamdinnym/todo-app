@@ -23,6 +23,7 @@ export const loginUser = async (
       const token = jwt.sign({ id: userData._id }, "SomeSecretKey", {
         expiresIn: "4h",
       });
+      console.log("token", token);
       return token;
     }
   } catch (error) {

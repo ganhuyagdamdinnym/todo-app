@@ -1,7 +1,7 @@
-mutation SignUpUser($input: inputSignUp) {
-  signUpUser(input: $input) {
-    id
+mutation SignUpUser {
+  signUpUser {
     email
     name
+    password
   }
 }

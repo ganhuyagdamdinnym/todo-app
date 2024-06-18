@@ -14,7 +14,7 @@ import Image from "next/image";
 import { useStatus } from "../_contexts/StatusContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { useTodo } from "../_contexts/TodoContext";
+import { useUserTodo } from "../_contexts/UserTodoContext";
 import { useDeleteTodoMutation } from "../generated";
 type TodoType = {
   title: string;
@@ -24,7 +24,7 @@ type TodoType = {
 export function AlertDialogDemo(props: TodoType) {
   const { title, RemoveTodo, id } = props;
   const { inprogressStatus, setInprogressStatus } = useStatus();
-  const { refetch } = useTodo();
+  const { refetch } = useUserTodo();
   const [removeTodo, {}] = useDeleteTodoMutation();
   const HandleMoveToTrash = async () => {
     const deleteTodoInput = {

@@ -8,32 +8,24 @@ import { useToken } from "../_contexts/TokenContext";
 import { useRouter } from "next/navigation";
 import { useLoginUserMutation } from "../generated";
 type PropsType = {
-  email: string;
-  pass: string;
+  loginEmail: string;
+  loginPass: string;
 };
-
 export function ButtonLogin(props: PropsType) {
   const [loginUser, { data }] = useLoginUserMutation();
-  const { email, pass } = props;
-  const { token, setToken } = useToken();
+  const { loginEmail, loginPass } = props;
   const router = useRouter();
   const HandleLogin = async () => {
-    const inputUser = { email: email, pass: pass };
+    const inputUser = { email: loginEmail, pass: loginPass };
     try {
-      await loginUser({ variables: { input: inputUser } });
-      // const res = await axios.post(`${Back_End_url}/login`, {
-      //   email: email,
-      //   pass: pass,
-      // });
-      // console.log(res);
-      // if (res.data.token) {
-      //   localStorage.setItem("token", res.data.token);
-      //   router.push("/");
-      // }
-      // // localStorage.removeItem("basket");
-      // // setToken(res.data.token);
+      await loginUser({ variables: { input: inputUser } }).then((res) => {
+        console.log(data);
+        if (data && data.loginUser) {
+          localStorage.setItem("token", data?.loginUser);
+          router.push("/");
+        }
+      });
     } catch (err) {}
-    console.log(email);
   };
   return (
     <Button onClick={() => HandleLogin()} variant="secondary">

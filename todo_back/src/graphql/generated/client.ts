@@ -19,6 +19,14 @@ export type CreateTodoInput = {
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type CreateTodoToUserInput = {
+  date?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  team?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  token?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type DeleteId = {
   id?: InputMaybe<Scalars['String']['input']>;
 };
@@ -36,13 +44,20 @@ export type LoginUserInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  CreateTodoToUser?: Maybe<Array<Maybe<Todo>>>;
   RefreshTodo?: Maybe<Todo>;
   deleteTodo?: Maybe<Todo>;
   deleteTodoFromTrash?: Maybe<Todo>;
   edithTodo?: Maybe<Todo>;
+  getTodoFromUser?: Maybe<Array<Maybe<User>>>;
   loginUser?: Maybe<Scalars['String']['output']>;
   signUpUser?: Maybe<User>;
   todoMutation?: Maybe<Array<Maybe<Todo>>>;
+};
+
+
+export type MutationCreateTodoToUserArgs = {
+  input?: InputMaybe<CreateTodoToUserInput>;
 };
 
 
@@ -66,6 +81,11 @@ export type MutationEdithTodoArgs = {
 };
 
 
+export type MutationGetTodoFromUserArgs = {
+  input?: InputMaybe<Token>;
+};
+
+
 export type MutationLoginUserArgs = {
   input?: InputMaybe<LoginUserInput>;
 };
@@ -83,8 +103,14 @@ export type MutationTodoMutationArgs = {
 export type Query = {
   __typename?: 'Query';
   getDeletedTodo?: Maybe<Array<Maybe<DeletedTodo>>>;
+  getTodoFromUser?: Maybe<Array<Maybe<User>>>;
   getUser?: Maybe<Array<Maybe<User>>>;
   todoQuery?: Maybe<Array<Maybe<Todo>>>;
+};
+
+
+export type QueryGetTodoFromUserArgs = {
+  input?: InputMaybe<Token>;
 };
 
 export type RefreshTodoInput = {
@@ -100,11 +126,17 @@ export type Todo = {
   title?: Maybe<Scalars['String']['output']>;
 };
 
+export type Token = {
+  token?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type User = {
   __typename?: 'User';
   email?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  password?: Maybe<Scalars['String']['output']>;
+  todos?: Maybe<Array<Maybe<Todo>>>;
 };
 
 export type DeletedTodo = {
@@ -118,8 +150,8 @@ export type DeletedTodo = {
 };
 
 export type InputSignUp = {
-  email?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
   pass: Scalars['String']['input'];
 };
 

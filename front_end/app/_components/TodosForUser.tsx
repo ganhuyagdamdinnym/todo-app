@@ -12,18 +12,20 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
 import { useTodo } from "../_contexts/TodoContext";
+import { useUserTodo } from "../_contexts/UserTodoContext";
 import { CheckboxDemo } from "./CheckButton";
 import { AlertDialogDemo } from "./_Alert";
 import { useStatus } from "../_contexts/StatusContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { Input } from "@/components/ui/input";
-import { Refresh } from "./Refresh";
 import { useEdithMutationMutation } from "../generated";
-import { useUserTodo } from "../_contexts/UserTodoContext";
-export function TableDemo() {
-  // const { todos, refetch } = useTodo();
-  const { userTodos, refetch } = useUserTodo();
+
+export function TodosForUser() {
+  const { todos, refetch } = useTodo();
+  const { userTodos } = useUserTodo();
+  console.log("user", userTodos);
+
   const { inprogressStatus, setInprogressStatus } = useStatus();
   const [deletingTitle, setDeletingTitle] = useState<string>("");
   const [isClickEdithButon, setisClickEdithButton] = useState<boolean>(false);
@@ -160,7 +162,7 @@ export function TableDemo() {
           <TableFooter>
             <TableRow className="w-full">
               <TableCell colSpan={3}>Total</TableCell>
-              <TableCell className="text-right">{userTodos.length}</TableCell>
+              <TableCell className="text-right">{todos.length}</TableCell>
             </TableRow>
           </TableFooter>
         </Table>
